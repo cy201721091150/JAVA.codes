@@ -1,4 +1,4 @@
-package com.example.a24270.recyclerviewtest;
+package com.example.a24270.listviewtest;
 
 /**
  * Created by 24270 on 2018/4/6.

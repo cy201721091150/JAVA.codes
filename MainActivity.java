@@ -1,73 +1,57 @@
-package com.example.a24270.recyclerviewtest;
+package com.example.a24270.listviewtest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    private List<Fruit> fruitList=new ArrayList<>();
+    private List<Fruit>fruitList=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initfruits();//初始化水果数据
-        RecyclerView recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
-        StaggeredGridLayoutManager layoutManage=new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManage);
-        FruitAdapter adapter=new FruitAdapter(fruitList);
-        recyclerView.setAdapter(adapter);
-
+        FruitAdapter adapter=new FruitAdapter(MainActivity.this,R.layout.fruit_item,fruitList);
+        ListView listView=(ListView) findViewById(R.id.list_view);//接收一个布局id,并构造一个listview对象
+        listView.setAdapter(adapter);//将构造器传给listview对象,进行启动
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Fruit fruit=fruitList.get(position);
+                Toast.makeText(MainActivity.this,fruit.getName(),Toast.LENGTH_SHORT).show();
+            }
+        });
+        /*ArrayAdapter<String> adapter=new ArrayAdapter<String>
+        (MainActivity.this,android.R.layout.simple_list_item_1,data);
+        android中的内置布局文件,里面只有一个TextView,可用于显示一段文本*/
     }
     private void initfruits(){
         for (int i=0;i<2;i++)
         {
-            /*Fruit m1=new Fruit(getRandomLengthName("木两两"),R.drawable.mll2);
+            Fruit m1=new Fruit("Apple",R.drawable.fruit);
             fruitList.add(m1);
-            Fruit m2=new Fruit(getRandomLengthName("木两两大傻逼"),R.drawable.mll2);
+            Fruit m2=new Fruit("Banana",R.drawable.fruit);
             fruitList.add(m2);
-            Fruit m3=new Fruit(getRandomLengthName("来自石柱的木两两"),R.drawable.mll2);
+            Fruit m3=new Fruit("Orange",R.drawable.fruit);
             fruitList.add(m3);
-            Fruit m4=new Fruit(getRandomLengthName("化材大佬木两两"),R.drawable.mll2);
+            Fruit m4=new Fruit("Watermelon",R.drawable.fruit);
             fruitList.add(m4);
-            Fruit m5=new Fruit(getRandomLengthName("SBMLL"),R.drawable.mll2);
+            Fruit m5=new Fruit("Pear",R.drawable.fruit);
             fruitList.add(m5);
-            Fruit m6=new Fruit(getRandomLengthName("英语大佬木两两"),R.drawable.mll2);
+            Fruit m6=new Fruit("Grape",R.drawable.fruit);
             fruitList.add(m6);
-            Fruit m7=new Fruit(getRandomLengthName("木老克"),R.drawable.mll2);
+            Fruit m7=new Fruit("Pineapple",R.drawable.fruit);
             fruitList.add(m7);
-            Fruit m8=new Fruit(getRandomLengthName("超级大剩女木两两"),R.drawable.mll2);
-            fruitList.add(m8);*/
-            Fruit m1=new Fruit(getRandomLengthName("Apple"),R.drawable.fruit);
-            fruitList.add(m1);
-            Fruit m2=new Fruit(getRandomLengthName("Banana"),R.drawable.fruit);
-            fruitList.add(m2);
-            Fruit m3=new Fruit(getRandomLengthName("Orange"),R.drawable.fruit);
-            fruitList.add(m3);
-            Fruit m4=new Fruit(getRandomLengthName("Watermelon"),R.drawable.fruit);
-            fruitList.add(m4);
-            Fruit m5=new Fruit(getRandomLengthName("Pear"),R.drawable.fruit);
-            fruitList.add(m5);
-            Fruit m6=new Fruit(getRandomLengthName("Grape"),R.drawable.fruit);
-            fruitList.add(m6);
-            Fruit m7=new Fruit(getRandomLengthName("Pineapple"),R.drawable.fruit);
-            fruitList.add(m7);
-            Fruit m8=new Fruit(getRandomLengthName("Strawberry"),R.drawable.fruit);
+            Fruit m8=new Fruit("Strawberry",R.drawable.fruit);
             fruitList.add(m8);
         }
-    }
-    private String getRandomLengthName(String name){
-        Random random=new Random();
-        int length =random.nextInt(20)+1;
-        StringBuilder builder=new StringBuilder();
-        for(int i=0;i<length;i++){
-            builder.append(name);
-        }
-        return builder.toString();
     }
 }
